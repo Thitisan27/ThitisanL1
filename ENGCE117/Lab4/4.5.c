@@ -28,7 +28,7 @@ int main() {
 
     start->next->next->next =
         (struct studentNode *)malloc(sizeof(struct studentNode));
-    SaveNode(start->next->next->next, "four", 1ddfd2, 'F', 3.44);
+    SaveNode(start->next->next->next, "four", 12, 'F', 3.44);
 
     now2 = &start;
 
