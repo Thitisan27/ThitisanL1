@@ -10,54 +10,47 @@ struct studentNode {
     struct studentNode *next;
 };
 
-void SaveNode(struct studentNode *node, char name[], int age, char sex, float gpa);
-void GoNext2(struct studentNode **walk);
+// Function prototypes
+struct studentNode *createNode(char n[], int a, char s, float g);
+void moveNext(struct studentNode **current);
 
 int main() {
-    struct studentNode *start;
-    struct studentNode **now2;
+    struct studentNode *head, *cursor;
 
-    start = (struct studentNode *)malloc(sizeof(struct studentNode));
-    SaveNode(start, "one", 6, 'M', 3.11);
+    // Build linked list
+    head = createNode("one", 6, 'M', 3.11);
+    head->next = createNode("two", 8, 'F', 3.22);
+    head->next->next = createNode("three", 10, 'M', 3.33);
 
-    start->next = (struct studentNode *)malloc(sizeof(struct studentNode));
-    SaveNode(start->next, "two", 8, 'F', 3.22);
+    // Set cursor at head
+    cursor = head;
 
-    start->next->next = (struct studentNode *)malloc(sizeof(struct studentNode));
-    SaveNode(start->next->next, "three", 10, 'M', 3.33);
+    // Move cursor to next node
+    moveNext(&cursor);
 
-    start->next->next->next =
-        (struct studentNode *)malloc(sizeof(struct studentNode));
-    SaveNode(start->next->next->next, "four", 12, 'F', 3.44);
-
-    now2 = &start;
-
-    GoNext2(now2);
-
-    printf("now2 points to: %s\n", (*now2)->name);
+    // Display result
+    printf("Current student: %s\n", cursor->name);
 
     return 0;
 }
 
-void SaveNode(struct studentNode *node, char name[], int age, char sex, float gpa) {
-    strcpy(node->name, name);
-    node->age = age;
-    node->sex = sex;
-    node->gpa = gpa;
+// Create and initialize a node
+struct studentNode *createNode(char n[], int a, char s, float g) {
+    struct studentNode *node;
+    node = (struct studentNode *)malloc(sizeof(struct studentNode));
+
+    strcpy(node->name, n);
+    node->age = a;
+    node->sex = s;
+    node->gpa = g;
     node->next = NULL;
+
+    return node;
 }
 
-void GoNext2(struct studentNode **walk) {
-    if (*walk != NULL) {
-        if ((*walk)->next != NULL) {
-            *walk = (*walk)->next;
-
-            printf("Name: %s\n", (*walk)->name);
-            printf("Age: %d\n", (*walk)->age);
-            printf("Sex: %c\n", (*walk)->sex);
-            printf("GPA: %.2f\n", (*walk)->gpa);
-        } else {
-            printf("No next node\n");
-        }
+// Move pointer to next node using double pointer
+void moveNext(struct studentNode **current) {
+    if (*current != NULL && (*current)->next != NULL) {
+        *current = (*current)->next;
     }
 }
